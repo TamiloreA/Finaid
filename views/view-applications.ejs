@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Financial Aid System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --sidebar-width: 280px;
+        }
+
+        body {
+            background-color: var(--gray-100);
+            color: var(--gray-900);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--black);
+            color: var(--white);
+            padding: 24px;
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--gray-700);
+            padding-bottom: 24px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gray-800);
+            border: 2px solid var(--gray-600);
+        }
+
+        .user-info {
+            flex-grow: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .user-role {
+            font-size: 14px;
+            color: var(--gray-400);
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            text-decoration: none;
+            color: var(--gray-400);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--gray-800);
+            color: var(--white);
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 32px;
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        .header {
+            margin-bottom: 32px;
+        }
+
+        .greeting {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--gray-600);
+            font-size: 16px;
+            margin-bottom: 24px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .dashboard-section {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .notification-list, .application-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .notification-item, .application-item {
+            background: var(--gray-50);
+            border-radius: 8px;
+            padding: 16px;
+            transition: transform 0.2s;
+        }
+
+        .notification-item:hover, .application-item:hover {
+            transform: translateX(8px);
+        }
+
+        .notification-item.unread {
+            border-left: 4px solid var(--black);
+        }
+
+        .application-item form {
+            margin-top: 12px;
+        }
+
+        .application-item textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--gray-300);
+            border-radius: 4px;
+            margin-bottom: 8px;
+            resize: vertical;
+        }
+
+        .button {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .button-primary {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .button-primary:hover {
+            background: var(--gray-800);
+        }
+
+        .button-danger {
+            background: #dc2626; /* Red color for reject button */
+            color: var(--white);
+        }
+        
+        .button-danger:hover {
+            background: #b91c1c; /* Darker red on hover */
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="user-profile">
+            <img src="<%= admin.profilePicture %>" class="user-avatar" alt="Admin Profile Picture">
+            <div class="user-info">
+                <div class="user-name"><%= admin.name %></div>
+                <div class="user-role"><%= admin.role %></div>
+            </div>
+        </div>
+        <nav class="nav-menu">
+            <ul>
+                <li class="nav-item">
+                    <a href="/admin/dashboard" class="nav-link active">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/applications" class="nav-link">Applications</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/users" class="nav-link">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/reports" class="nav-link">Reports</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/settings" class="nav-link">Settings</a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="main-content">
+        <header class="header">
+            <h1 class="greeting">Welcome, <%= admin.name %></h1>
+            <div class="subtitle">Manage financial aid applications and system notifications</div>
+        </header>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-section">
+                <h2 class="section-title">Notifications</h2>
+                <div class="notification-list">
+                    <% if (admin.notifications && admin.notifications.length > 0) { %>
+                        <% admin.notifications.forEach(notification => { %>
+                            <div class="notification-item <%= notification.read ? 'read' : 'unread' %>">
+                                <div><%= notification.message %></div>
+                                <div style="color: var(--gray-500); font-size: 14px;">
+                                    <%= notification.date.toLocaleDateString() %>
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <div style="color: var(--gray-500); font-size: 14px;">No notifications found.</div>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="dashboard-section">
+                <h2 class="section-title">Pending Applications</h2>
+                <div class="application-list">
+                    <% pendingApplications.forEach(application => { %>
+                        <div class="application-item">
+                            <div><%= application.aidType %> - $<%= application.amount %></div>
+                            <div style="color: var(--gray-500); font-size: 14px;">
+                                Submitted by: <%= application.user.name %> (<%= application.user.email %>)
+                            </div>
+                            <form action="/admin/approve-application" method="POST">
+                                <input type="hidden" name="applicationId" value="<%= application._id %>">
+                                <textarea name="comments" placeholder="Comments" rows="3"></textarea>
+                                <div style="display: flex; gap: 8px;">
+                                    <button type="submit" name="action" value="approve" class="button button-primary">Approve</button>
+                                    <button type="submit" name="action" value="reject" class="button button-danger">Reject</button>
+                                </div>
+                            </form>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

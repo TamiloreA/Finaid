@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Financial Aid System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --sidebar-width: 280px;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+        }
+
+        body {
+            background-color: var(--gray-100);
+            color: var(--gray-900);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--black);
+            color: var(--white);
+            padding: 24px;
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+            z-index: 10;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--gray-700);
+            padding-bottom: 24px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gray-800);
+            border: 2px solid var(--gray-600);
+        }
+
+        .user-info {
+            flex-grow: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .user-role {
+            font-size: 14px;
+            color: var(--gray-400);
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-menu li{
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            text-decoration: none;
+            color: var(--gray-400);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--gray-800);
+            color: var(--white);
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+            margin-right: 12px;
+        }
+
+        .nav-link span {
+            flex-grow: 1;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 32px;
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        .header {
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        .greeting {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--gray-600);
+            font-size: 16px;
+        }
+
+        .date-display {
+            font-size: 14px;
+            color: var(--gray-500);
+            margin-top: 8px;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 16px;
+        }
+
+        .filter-dropdown {
+            padding: 8px 16px;
+            background: var(--white);
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--gray-200);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-title {
+            font-size: 14px;
+            color: var(--gray-500);
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-change {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat-change.positive {
+            color: var(--success);
+        }
+
+        .stat-change.negative {
+            color: var(--danger);
+        }
+
+        /* Dashboard Sections */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .dashboard-section {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .section-title-action {
+            background: var(--gray-100);
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 12px;
+            cursor: pointer;
+            color: var(--gray-600);
+        }
+
+        .section-title-action:hover {
+            background: var(--gray-200);
+        }
+
+        /* Charts */
+        .chart-container {
+            height: 300px;
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .bar-chart {
+            display: flex;
+            height: 100%;
+            align-items: flex-end;
+            gap: 16px;
+            padding-bottom: 40px;
+        }
+
+        .bar-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bar {
+            width: 40px;
+            background: var(--black);
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            transition: height 0.5s ease;
+        }
+
+        .bar-label {
+            font-size: 12px;
+            color: var(--gray-500);
+            position: absolute;
+            bottom: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        /* Pie Chart */
+        .pie-chart {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--success) 0% 25%,
+                var(--warning) 25% 50%,
+                var(--danger) 50% 75%,
+                var(--info) 75% 100%
+            );
+            margin: 0 auto 24px;
+            position: relative;
+        }
+
+        .pie-chart::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background: var(--white);
+            border-radius: 50%;
+        }
+
+        .pie-chart-legend {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .pie-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .pie-legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .pie-legend-label {
+            color: var(--gray-600);
+        }
+
+        .pie-legend-value {
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background-color: var(--gray-50);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: var(--warning);
+            color: var(--white);
+        }
+
+        .status-approved {
+            background-color: var(--success);
+            color: var(--white);
+        }
+
+        .status-rejected {
+            background-color: var(--danger);
+            color: var(--white);
+        }
+
+        /* Notifications */
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            background: var(--gray-50);
+            border-radius: 8px;
+            padding: 16px;
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        .notification-item:hover {
+            transform: translateX(8px);
+        }
+
+        .notification-item.unread {
+            border-left: 4px solid var(--black);
+        }
+
+        .notification-item.unread::after {
+            content: "";
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--danger);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .header {
+                flex-direction: column;
+            }
+            .header-right {
+                margin-top: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="user-profile">
+            <img src="<%= admin.profilePicture %>" class="user-avatar" alt="Admin Profile Picture">
+            <div class="user-info">
+                <div class="user-name"><%= admin.name %></div>
+                <div class="user-role"><%= admin.role %></div>
+            </div>
+        </div>
+        <nav class="nav-menu">
+            <ul>
+                <li class="nav-item">
+                    <a href="/admin/dashboard" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/applications" class="nav-link">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <span>Applications</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/users" class="nav-link">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/reports" class="nav-link">
+                        <i class="fa-solid fa-flag"></i>
+                        <span>Reports</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/settings" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="main-content">
+        <header class="header">
+            <div class="header-left">
+                <h1 class="greeting">Welcome, <%= admin.name %></h1>
+                <div class="subtitle">Financial Aid System Administration</div>
+                <div class="date-display">Today: <%= new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></div>
+            </div>
+            <div class="header-right">
+                <select class="filter-dropdown" id="filterDropdown">
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                    <option value="quarter">This Quarter</option>
+                    <option value="year">This Year</option>
+                </select>
+            </div>
+        </header>
+
+        <!-- Stats Cards -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-title">Total Applications</div>
+        <div class="stat-value"><%= stats.totalApplications %></div>
+        <div class="stat-change positive">+12.5% from last month</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-title">Pending Review</div>
+        <div class="stat-value"><%= stats.pendingReview %></div>
+        <div class="stat-change negative">-3.2% from last month</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-title">Total Aid Disbursed</div>
+        <div class="stat-value">₦<%= stats.totalAidDisbursed.toLocaleString() %></div>
+        <div class="stat-change positive">+8.7% from last month</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-title">Active Students</div>
+        <div class="stat-value"><%= stats.activeStudents %></div>
+        <div class="stat-change positive">+5.3% from last month</div>
+    </div>
+</div>
+
+        <!-- Main Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Left Column -->
+            <div>
+                <!-- Applications Over Time Chart -->
+                <div class="dashboard-section">
+                    <div class="section-title">
+                        <span>Applications Over Time</span>
+                        <div class="section-title-actions">
+                            <button class="section-title-action">Weekly</button>
+                            <button class="section-title-action">Monthly</button>
+                            <button class="section-title-action">Yearly</button>
+                        </div>
+                    </div>
+                    <!-- Applications Over Time Chart -->
+                    <div class="chart-container">
+                        <div class="bar-chart">
+                            <% chartData.forEach(data => { %>
+                                <div class="bar-group">
+                                    <div class="bar" style="height: <%= (data.count / 200) * 100 %>%;">
+                                        <div class="bar-value"><%= data.count %></div>
+                                        <div class="bar-label"><%= data.month %></div>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Applications Table -->
+                <div class="dashboard-section" style="margin-top: 24px;">
+                    <div class="section-title">
+                        <span>Recent Applications</span>
+                        <div class="section-title-actions">
+                            <button class="section-title-action">View All</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Aid Type</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% recentApplications.forEach(application => { %>
+                                    <tr>
+                                        <td><%= application.studentName %></td>
+                                        <td><%= application.aidType %></td>
+                                        <td>₦<%= application.amount.toLocaleString() %></td>
+                                        <td><%= application.date.toLocaleDateString() %></td>
+                                        <td>
+                                            <span class="status-badge status-<%= application.status.toLowerCase() %>">
+                                                <%= application.status %>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div>
+                <!-- Aid Distribution Pie Chart -->
+                <div class="dashboard-section">
+                    <div class="section-title">
+                        <span>Aid Distribution</span>
+                    </div>
+                    <div class="pie-chart" style="background: conic-gradient(
+                        var(--success) 0% <%= pieChartPercentages.tuition %>%,
+                        var(--warning) <%= pieChartPercentages.tuition %>% <%= parseFloat(pieChartPercentages.tuition) + parseFloat(pieChartPercentages.living) %>%,
+                        var(--danger) <%= parseFloat(pieChartPercentages.tuition) + parseFloat(pieChartPercentages.living) %>% <%= parseFloat(pieChartPercentages.tuition) + parseFloat(pieChartPercentages.living) + parseFloat(pieChartPercentages.books) %>%,
+                        var(--info) <%= parseFloat(pieChartPercentages.tuition) + parseFloat(pieChartPercentages.living) + parseFloat(pieChartPercentages.books) %>% 100%
+                    );"></div>
+                    <div class="pie-chart-legend">
+                        <div class="pie-legend-item">
+                            <div class="pie-legend-color" style="background-color: var(--success);"></div>
+                            <div class="pie-legend-label">Tuition</div>
+                            <div class="pie-legend-value"><%= pieChartPercentages.tuition %>%</div>
+                        </div>
+                        <div class="pie-legend-item">
+                            <div class="pie-legend-color" style="background-color: var(--warning);"></div>
+                            <div class="pie-legend-label">Living</div>
+                            <div class="pie-legend-value"><%= pieChartPercentages.living %>%</div>
+                        </div>
+                        <div class="pie-legend-item">
+                            <div class="pie-legend-color" style="background-color: var(--danger);"></div>
+                            <div class="pie-legend-label">Books</div>
+                            <div class="pie-legend-value"><%= pieChartPercentages.books %>%</div>
+                        </div>
+                        <div class="pie-legend-item">
+                            <div class="pie-legend-color" style="background-color: var(--info);"></div>
+                            <div class="pie-legend-label">Other</div>
+                            <div class="pie-legend-value"><%= pieChartPercentages.other %>%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications -->
+                <div class="dashboard-section" style="margin-top: 24px;">
+                    <div class="section-title">
+                        <span>Notifications</span>
+                        <div class="section-title-actions">
+                            <button class="section-title-action">Mark All Read</button>
+                        </div>
+                    </div>
+                    <div class="notification-list">
+                        <% if (admin.notifications && admin.notifications.length > 0) { %>
+                            <% admin.notifications.forEach(notification => { %>
+                                <div class="notification-item <%= notification.read ? 'read' : 'unread' %>">
+                                    <div><%= notification.message %></div>
+                                    <div style="color: var(--gray-500); font-size: 14px;">
+                                        <%= notification.date.toLocaleDateString() %>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        <% } else { %>
+                            <!-- Fallback static notifications for preview -->
+                            <div class="notification-item unread">
+                                <div>New application submitted by Sarah Johnson</div>
+                                <div style="color: var(--gray-500); font-size: 14px;">July 7, 2023</div>
+                            </div>
+                            <div class="notification-item unread">
+                                <div>Document verification needed for Michael Brown's application</div>
+                                <div style="color: var(--gray-500); font-size: 14px;">July 6, 2023</div>
+                            </div>
+                            <div class="notification-item read">
+                                <div>Monthly aid disbursement report is ready for review</div>
+                                <div style="color: var(--gray-500); font-size: 14px;">July 5, 2023</div>
+                            </div>
+                            <div class="notification-item read">
+                                <div>System maintenance scheduled for July 10, 2023</div>
+                                <div style="color: var(--gray-500); font-size: 14px;">July 3, 2023</div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        const filterDropdown = document.getElementById('filterDropdown');
+    
+        filterDropdown.addEventListener('change', async (event) => {
+            const filterValue = event.target.value;
+    
+            try {
+                // Send a request to the backend to fetch filtered data
+                const response = await fetch(`/admin/filter-data?period=${filterValue}`);
+                const data = await response.json();
+    
+                // Update the stats cards, charts, and tables with the filtered data
+                updateStatsCards(data.stats);
+                updateChart(data.chartData);
+                updateTable(data.recentApplications);
+            } catch (err) {
+                console.error("Error filtering data:", err);
+            }
+        });
+    
+        // Function to update stats cards
+        const updateStatsCards = (stats) => {
+            document.querySelector('.stat-value[data-stat="totalApplications"]').textContent = stats.totalApplications;
+            document.querySelector('.stat-value[data-stat="pendingReview"]').textContent = stats.pendingReview;
+            document.querySelector('.stat-value[data-stat="totalAidDisbursed"]').textContent = `$${stats.totalAidDisbursed.toLocaleString()}`;
+            document.querySelector('.stat-value[data-stat="activeStudents"]').textContent = stats.activeStudents;
+        };
+    
+        // Function to update the chart
+        const updateChart = (chartData) => {
+            const barGroups = document.querySelectorAll('.bar-group');
+            barGroups.forEach((group, index) => {
+                const bar = group.querySelector('.bar');
+                const barValue = group.querySelector('.bar-value');
+                bar.style.height = `${(chartData[index].count / 200) * 100}%`;
+                barValue.textContent = chartData[index].count;
+            });
+        };
+    
+        // Function to update the table
+        const updateTable = (recentApplications) => {
+            const tableBody = document.querySelector('table tbody');
+            tableBody.innerHTML = recentApplications.map(application => `
+                <tr>
+                    <td>${application.studentName}</td>
+                    <td>${application.aidType}</td>
+                    <td>$${application.amount.toLocaleString()}</td>
+                    <td>${new Date(application.date).toLocaleDateString()}</td>
+                    <td><span class="status-badge status-${application.status.toLowerCase()}">${application.status}</span></td>
+                </tr>
+            `).join('');
+        };
+    </script>
+</body>
+</html>

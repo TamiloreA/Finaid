@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+            font-size: 1.75rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+
+        input:focus {
+            border-color: #1a1a1a;
+            outline: none;
+        }
+
+        label {
+            position: absolute;
+            left: 0.75rem;
+            top: 0.75rem;
+            color: #666;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            background: white;
+            padding: 0 0.25rem;
+        }
+
+        input:focus + label,
+        input:not(:placeholder-shown) + label {
+            transform: translateY(-1.4rem) scale(0.8);
+            color: #1a1a1a;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        .message {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .error {
+            color: #ff4444;
+        }
+
+        .success {
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Verify Email</h1>
+        <% if (errors && errors.length > 0) { %>
+            <% errors.forEach((err) => { %>
+                <div class="message error"><%= err.msg %></div>
+            <% }); %>
+        <% } %>
+        <% if (message && message !== '') { %>
+            <div class="message success"><%= message %></div>
+        <% } %>
+        <% if (error_msg && error_msg !== '') { %>
+            <div class="message error"><%= error_msg %></div>
+        <% } %>
+        <form action="/verify-email" method="POST">
+            <div class="input-group">
+                <input type="email" name="email" id="email" placeholder=" " required>
+                <label for="email">Email</label>
+            </div>
+            <div class="input-group">
+                <input type="text" name="verificationCode" id="verificationCode" placeholder=" " required>
+                <label for="verificationCode">Verification Code</label>
+            </div>
+            <button type="submit">Verify Email</button>
+        </form>
+    </div>
+</body>
+</html>

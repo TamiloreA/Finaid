@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Aid System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-white">
+    <!-- Modern Navbar -->
+    <nav class="navbar-modern">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="/" class="text-2xl font-bold text-black">FinAid</a>
+                
+                <!-- Desktop Menu -->
+                <div class="desktop-menu hidden md:flex items-center space-x-8">
+                    <a href="/" class="text-gray-800 hover:text-black transition-colors">Home</a>
+                    <a href="/features" class="text-gray-800 hover:text-black transition-colors">Features</a>
+                    <a href="#apply" class="text-gray-800 hover:text-black transition-colors">Apply</a>
+                    <a href="/login"><button class="btn-modern">Sign In</button></a>
+                    <!-- <a href="/login"><button class="btn-modern">Sign In</button></a> -->
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="hamburger md:hidden">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu">
+        <div class="flex flex-col items-center justify-center h-full space-y-8">
+            <a href="/" class="text-white text-2xl">Home</a>
+            <a href="/features" class="text-white text-2xl">Features</a>
+            <a href="#apply" class="text-white text-2xl">Apply</a>
+            <a href="/login"><button class="btn-modern mt-4">Sign In</button></a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen bg-white flex items-center pt-20">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right" class="hero-text">
+                    <h1 class="text-4xl md:text-6xl font-bold text-black mb-6">
+                        Your Future Starts Here
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8">
+                        Navigate your financial aid journey with confidence. We're here to help you achieve your academic dreams.
+                    </p>
+                    <div class="flex space-x-4 hero-buttons">
+                        <a href="/signup"><button class="btn-modern">Get Started</button></a>
+                        <button class="btn-modern bg-white text-black border-2 border-black">Learn More</button>
+                    </div>
+                </div>
+                <div data-aos="fade-left" class="hidden md:block">
+                    <img src="images/Unknown2.jpg" alt="Students" class="rounded-lg shadow-xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sms-hero sms-section">
+        <h1>Transform Your School Management</h1>
+        <p>Streamline your educational institution's operations with our comprehensive management solution designed for modern schools.</p>
+    </section>
+
+    <div class="sms-features sms-section">
+        <div class="sms-feature-card">
+            <div class="sms-feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+            </div>
+            <h3>Smart Integration</h3>
+            <p>Seamlessly connect all your school's systems and data in one unified platform.</p>
+        </div>
+        <div class="sms-feature-card">
+            <div class="sms-feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+            </div>
+            <h3>Enhanced Security</h3>
+            <p>Keep your school's data protected with advanced security measures and compliance tools.</p>
+        </div>
+        <div class="sms-feature-card">
+            <div class="sms-feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                </svg>
+            </div>
+            <h3>Improved Efficiency</h3>
+            <p>Automate routine tasks and streamline workflows to save time and resources.</p>
+        </div>
+        <div class="sms-feature-card">
+            <div class="sms-feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+                </svg>
+            </div>
+            <h3>User Experience</h3>
+            <p>Intuitive interface designed for administrators, teachers, and staff members.</p>
+        </div>
+    </div>
+
+    <section class="sms-about sms-section">
+        <div class="sms-about-image">
+            <img src="images/Unknown4.jpg" alt="School Management Dashboard">
+        </div>
+        <div class="sms-about-content">
+            <h2>About Our Platform</h2>
+            <p>We provide comprehensive school management solutions that help educational institutions modernize their operations and improve student outcomes.</p>
+            <a href="#" class="sms-btn">Learn More</a>
+        </div>
+    </section>
+
+    <section class="trusted-section">
+        <div class="container">
+            <h2 class="trusted-heading">Trusted by Engineers at</h2>
+            <div class="logo-grid">
+                <img src="images/1655873405shopify-logo-white-png.png" alt="Shopify" class="logo">
+                <img src="images/Open-AI-White-Logo-PNG.png" alt="OpenAI" class="logo">
+                <!-- <img src="Replicate Ai 2.png" alt="Replicate" class="logo"> -->
+                <img src="images/BrandLogo.org-Perplexity-AI-Logo-2023-White.png" alt="Perplexity" class="logo">
+                <!-- <img src="Midjourney-White-Logo-PNG.png" alt="Midjourney" class="logo"> -->
+                <img src="images/PngItem_1099904.png" alt="Samsung" class="logo">
+                <img src="images/1707842452instacart-logo-white.png" alt="Instacart" class="logo">
+                <img src="images/620d980c4e456a37c88a3fdc_ramp.png" alt="Ramp" class="logo">
+                <img src="images/PngItem_5211269.png" alt="W&B" class="logo">
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Stories Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">
+                Success Stories
+            </h2>
+            
+            <!-- Statistics Section -->
+            <div class="stats-container" data-aos="fade-up">
+                <div class="stat-item">
+                    <div class="number-counter" data-target="15000">0</div>
+                    <p class="text-gray-600">Students Helped</p>
+                </div>
+                <div class="stat-item">
+                    <div class="number-counter" data-target="50">0</div>
+                    <p class="text-gray-600">Million in Aid</p>
+                </div>
+                <div class="stat-item">
+                    <div class="number-counter" data-target="95">0</div>
+                    <p class="text-gray-600">Success Rate</p>
+                </div>
+                <div class="stat-item">
+                    <div class="number-counter" data-target="200">0</div>
+                    <p class="text-gray-600">Partner Universities</p>
+                </div>
+            </div>
+
+            <!-- Enhanced Testimonial Carousel -->
+            <div class="swiper storySwiper">
+                <div class="swiper-wrapper">
+                    <!-- Success Story 1 -->
+                    <div class="swiper-slide">
+                        <div class="story-card">
+                            <div class="flex items-center mb-6">
+                                <img src="images/istockphoto-1435745704-612x612.jpg" alt="Sarah" class="story-image">
+                                <div class="ml-4">
+                                    <h4 class="font-semibold text-xl">Sarah Johnson</h4>
+                                    <p class="text-gray-600">Medical Student</p>
+                                    <div class="flex text-yellow-400 mt-2">★★★★★</div>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 mb-6">"The financial aid platform made my dream of medical school possible. The process was seamless and the support was incredible!"</p>
+                            <div class="mt-auto">
+                                <span class="text-black font-semibold">Achievement:</span>
+                                <p class="text-gray-600">Received full scholarship to Harvard Medical School</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Success Story 2 -->
+                    <div class="swiper-slide">
+                        <div class="story-card">
+                            <div class="flex items-center mb-6">
+                                <img src="images/gettyimages-1141508304-612x612-2.jpg" alt="Michael" class="story-image">
+                                <div class="ml-4">
+                                    <h4 class="font-semibold text-xl">Michael Chen</h4>
+                                    <p class="text-gray-600">Engineering Graduate</p>
+                                    <div class="flex text-yellow-400 mt-2">★★★★★</div>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 mb-6">"As an international student, finding funding seemed impossible until I discovered this platform. They guided me through every step!"</p>
+                            <div class="mt-auto">
+                                <span class="text-black font-semibold">Achievement:</span>
+                                <p class="text-gray-600">Secured $50,000 in grants for MIT</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add more success stories... -->
+
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-grid">
+            <div class="footer-column">
+              <h3>Products</h3>
+              <ul>
+                <li><a href="#">Main Product</a></li>
+                <li><a href="#">Product API</a></li>
+                <li><a href="#">Additional Services</a></li>
+                <li><a href="#">Integrations</a></li>
+              </ul>
+            </div>
+    
+            <div class="footer-column">
+              <h3>Support</h3>
+              <ul>
+                <li><a href="#">Help Center</a></li>
+                <li><a href="#">Contact Sales</a></li>
+                <li><a href="/admin/signup">Admin Signup</a></li>
+                <li><a href="#">Admin Signin</a></li>
+              </ul>
+            </div>
+    
+            <div class="footer-column">
+              <h3>Resources</h3>
+              <ul>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Customer Stories</a></li>
+                <li><a href="#">Resource Center</a></li>
+                <li><a href="#">Trust Center</a></li>
+              </ul>
+            </div>
+    
+            <div class="footer-column">
+              <h3>Company</h3>
+              <ul>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Terms</a></li>
+                <li><a href="#">Privacy</a></li>
+                <li><a href="#">Partners</a></li>
+              </ul>
+            </div>
+          </div>
+    
+          <div class="footer-bottom">
+            <div class="social-links">
+              <a href="#"><svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+              <a href="#"><svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a>
+              <a href="#"><svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+            </div>
+    
+            <!-- <select class="language-select">
+              <option>English (United Kingdom)</option>
+            </select> -->
+    
+            <div class="payment-methods">
+              <img src="images/mastercard.svg" alt="Mastercard">
+              <img src="images/visa.svg" alt="Visa">
+              <img src="images/PngItem_1604359.png" alt="American Express">
+              <img src="images/verve3.svg" alt="Discover">
+            </div>
+          </div>
+    
+          <div class="certifications">
+            <div class="certifications-left">
+              <img src="images/cpa-certified-public-accountant-designation-provided-to-licensed-accounting-professionals-acronym-text-stamp-293461206.jpg.webp" alt="CPA Certification">
+              <img src="images/istockphoto-1296987665-612x612.jpg" alt="HIPAA Certification">
+              <img src="images/iso-certification-iso-90012015-logo-iso-9000-certification-premium-vector.jpg" alt="ISO Certification">
+              <img src="images/sddefault.jpg" alt="Security Certification">
+            </div>
+            <div class="certifications-right">
+              <div>Electronic signatures are legally binding in the United States, European Union,</div>
+              <div>United Kingdom and in many countries around the world.</div>
+              <div class="legal-text">
+                For more information, please view our <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+<script>
+// Initialize AOS
+AOS.init({
+    duration: 800,
+    once: true,
+    offset: 100
+});
+
+// Enhanced Swiper Configuration
+const storySwiper = new Swiper('.storySwiper', {
+slidesPerView: 1,
+spaceBetween: 30,
+centeredSlides: true,
+loop: true,
+autoplay: {
+    delay: 5000,
+    disableOnInteraction: false,
+},
+pagination: {
+    el: '.swiper-pagination',
+    clickable: true,
+    dynamicBullets: true,
+},
+navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+},
+breakpoints: {
+    640: {
+        slidesPerView: 1,
+    },
+    768: {
+        slidesPerView: 2,
+    },
+    1024: {
+        slidesPerView: 3,
+    },
+},
+on: {
+    slideChange: function () {
+        gsap.from('.swiper-slide-active .story-card', {
+            scale: 0.8,
+            opacity: 0,
+            duration: 0.5,
+        });
+    },
+},
+});
+
+// Number Counter Animation
+const counters = document.querySelectorAll('.number-counter');
+const speed = 200;
+
+const observerCallback = (entries) => {
+entries.forEach(entry => {
+    if (entry.isIntersecting) {
+        const counter = entry.target;
+        const target = parseInt(counter.getAttribute('data-target'));
+        let count = 0;
+        
+        const updateCount = () => {
+            const increment = target / speed;
+            if (count < target) {
+                count += increment;
+                counter.innerText = Math.ceil(count);
+                setTimeout(updateCount, 1);
+            } else {
+                counter.innerText = target;
+            }
+        };
+
+        counter.classList.add('visible');
+        updateCount();
+    }
+});
+};
+
+const observer = new IntersectionObserver(observerCallback, {
+threshold: 0.5,
+});
+
+counters.forEach(counter => observer.observe(counter));
+
+// Enhanced hover effects
+document.querySelectorAll('.hover-card').forEach(card => {
+card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    card.style.setProperty('--x', `${x}px`);
+    card.style.setProperty('--y', `${y}px`);
+});
+});
+
+// Mobile menu functionality
+const hamburger = document.querySelector('.hamburger');
+const mobileMenu = document.querySelector('.mobile-menu');
+
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    mobileMenu.classList.toggle('active');
+});
+
+// Close mobile menu on link click
+document.querySelectorAll('.mobile-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+    });
+});
+
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+    const navbar = document.querySelector('.navbar-modern');
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
+
+// Responsive image loading
+function handleResize() {
+    const windowWidth = window.innerWidth;
+    const images = document.querySelectorAll('img[data-src]');
+    
+    images.forEach(img => {
+        const size = windowWidth < 768 ? 'small' : 'large';
+        img.src = img.dataset[size];
+    });
+}
+
+window.addEventListener('resize', handleResize);
+handleResize();
+
+const smsSections = document.querySelectorAll('.sms-section');
+
+        const smsObserverOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const smsObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('sms-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, smsObserverOptions);
+
+        smsSections.forEach(section => {
+            smsObserver.observe(section);
+        });
+
+        // Add hover effect to feature cards
+        document.querySelectorAll('.sms-feature-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-5px)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+
+    </script>
+</body>
+</html>

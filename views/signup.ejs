@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Signup</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideIn 0.6s ease-out forwards;
+        }
+
+        h1 {
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+            font-size: 1.75rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+
+        input:focus {
+            border-color: #1a1a1a;
+            outline: none;
+        }
+
+        label {
+            position: absolute;
+            left: 0.75rem;
+            top: 0.75rem;
+            color: #666;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            background: white;
+            padding: 0 0.25rem;
+        }
+
+        input:focus + label,
+        input:not(:placeholder-shown) + label {
+            transform: translateY(-1.4rem) scale(0.8);
+            color: #1a1a1a;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        @keyframes slideIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Error and Success Message Styles */
+        .message-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .error-message {
+            color: #ff4444;
+            background-color: #ffe6e6;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            border: 1px solid #ffcccc;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .success-message {
+            color: #4CAF50;
+            background-color: #e8f5e9;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            border: 1px solid #c8e6c9;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .link {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .link a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Password Requirements */
+        #password-requirements {
+            display: none; /* Hidden by default */
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .requirement {
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .requirement.valid {
+            color: #4CAF50; /* Green for valid */
+        }
+
+        .requirement.invalid {
+            color: #ff4444; /* Red for invalid */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create Account</h1>
+
+        <!-- Error and Success Messages -->
+        <div class="message-container">
+            <% if (errors && errors.length > 0) { %>
+                <% errors.forEach((err) => { %>
+                    <div class="error-message"><%= err.msg %></div>
+                <% }); %>
+            <% } %>
+            
+            <% if (message && message !== '') { %>
+                <div class="success-message"><%= message %></div>
+            <% } %>
+            
+            <% if (error_msg && error_msg !== '') { %>
+                <div class="error-message"><%= error_msg %></div>
+            <% } %>
+        </div>
+
+        <!-- Signup Form -->
+        <form id="signupForm" action="/signup" method="post" enctype="multipart/form-data">
+            <div class="input-group">
+                <input type="text" name="fn" placeholder=" " value="<%= fn || '' %>" required>
+                <label for="name">Firstname</label>
+            </div>
+            <div class="input-group">
+                <input type="text" name="ln" placeholder=" " value="<%= ln || '' %>" required>
+                <label for="name">Lastname</label>
+            </div>
+            <div class="input-group">
+                <input type="number" name="age" placeholder=" " value="<%= age || '' %>" required>
+                <label for="name">Age</label>
+            </div>
+            <div class="input-group">
+                <input type="email" name="email" placeholder=" " value="<%= email || '' %>" required>
+                <label for="email">Email</label>
+            </div>
+            <div class="input-group">
+                <input type="tel" name="phone" placeholder=" " value="<%= phone || '' %>" required>
+                <label for="name">Phone Number</label>
+            </div>
+            <div class="input-group">
+                <input type="text" name="matric" placeholder=" " value="<%= matric || '' %>" required>
+                <label for="matric">Matric Number</label>
+            </div>
+            <div class="input-group">
+                <input type="file" name="image" placeholder=" " required>
+                <label for="email">Upload Image</label>
+            </div>
+            <div class="input-group">
+                <input type="password" name="pass1" id="password" placeholder=" " required>
+                <label for="password">Password</label>
+                <i class="fas fa-eye" id="togglePassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666;"></i>
+                <!-- Password Requirements -->
+                <div id="password-requirements">
+                    <div id="length" class="requirement">• 8 characters minimum</div>
+                    <div id="lowercase" class="requirement">• One lowercase letter</div>
+                    <div id="uppercase" class="requirement">• One uppercase letter</div>
+                    <div id="number" class="requirement">• One number</div>
+                    <div id="special" class="requirement">• One special character</div>
+                </div>
+            </div>
+            <div class="input-group">
+                <input type="password" name="pass2" placeholder=" " required>
+                <label for="password">Confirm Password</label>
+            </div>
+            <button type="submit">Sign Up</button>
+        </form>
+        <div class="link">
+            Already have an account? <a href="/login">Sign in</a>
+        </div>
+    </div>
+
+    <script>
+        const passwordInput = document.getElementById('password');
+        const passwordRequirements = document.getElementById('password-requirements');
+        const requirements = {
+            length: document.getElementById('length'),
+            lowercase: document.getElementById('lowercase'),
+            uppercase: document.getElementById('uppercase'),
+            number: document.getElementById('number'),
+            special: document.getElementById('special'),
+        };
+
+        passwordInput.addEventListener('input', function () {
+            const password = this.value;
+
+            // Show password requirements if the user starts typing
+            if (password.length > 0) {
+                passwordRequirements.style.display = 'block';
+            } else {
+                passwordRequirements.style.display = 'none';
+            }
+
+            // Check password length
+            if (password.length >= 8) {
+                requirements.length.classList.add('valid');
+                requirements.length.classList.remove('invalid');
+            } else {
+                requirements.length.classList.add('invalid');
+                requirements.length.classList.remove('valid');
+            }
+
+            // Check for lowercase letter
+            if (/[a-z]/.test(password)) {
+                requirements.lowercase.classList.add('valid');
+                requirements.lowercase.classList.remove('invalid');
+            } else {
+                requirements.lowercase.classList.add('invalid');
+                requirements.lowercase.classList.remove('valid');
+            }
+
+            // Check for uppercase letter
+            if (/[A-Z]/.test(password)) {
+                requirements.uppercase.classList.add('valid');
+                requirements.uppercase.classList.remove('invalid');
+            } else {
+                requirements.uppercase.classList.add('invalid');
+                requirements.uppercase.classList.remove('valid');
+            }
+
+            // Check for number
+            if (/\d/.test(password)) {
+                requirements.number.classList.add('valid');
+                requirements.number.classList.remove('invalid');
+            } else {
+                requirements.number.classList.add('invalid');
+                requirements.number.classList.remove('valid');
+            }
+
+            // Check for special character
+            if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+                requirements.special.classList.add('valid');
+                requirements.special.classList.remove('invalid');
+            } else {
+                requirements.special.classList.add('invalid');
+                requirements.special.classList.remove('valid');
+            }
+        });
+
+        const togglePassword = document.getElementById('togglePassword');
+        togglePassword.addEventListener('click', function () {
+            // Toggle the type attribute
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+
+            // Toggle the eye icon
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const button = this.querySelector('button');
+            button.style.width = '50px';
+            button.innerHTML = '✓';
+            button.style.opacity = '0.7';
+            
+            setTimeout(() => {
+                this.submit();
+            }, 300);
+        });
+    </script>
+</body>
+</html>

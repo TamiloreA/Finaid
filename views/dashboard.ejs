@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Aid Distribution Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --sidebar-width: 280px;
+        }
+
+        body {
+            background-color: var(--gray-100);
+            color: var(--gray-900);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--black);
+            color: var(--white);
+            padding: 24px;
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--gray-700);
+            padding-bottom: 24px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gray-800);
+            border: 2px solid var(--gray-600);
+        }
+
+        .user-info {
+            flex-grow: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .user-role {
+            font-size: 14px;
+            color: var(--gray-400);
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-menu li{
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            text-decoration: none;
+            color: var(--gray-400);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--gray-800);
+            color: var(--white);
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+            margin-right: 12px;
+        }
+
+        .nav-link span {
+            flex-grow: 1;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 32px;
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        .header {
+            margin-bottom: 32px;
+        }
+
+        .date {
+            color: var(--gray-500);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .greeting {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--gray-600);
+            font-size: 16px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .button-primary {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .button-secondary {
+            background: var(--white);
+            color: var(--black);
+            border: 1px solid var(--gray-200);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        .tasks-section, .additional-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--gray-200);
+            margin-bottom: 24px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--gray-200);
+            padding-bottom: 16px;
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: var(--gray-50);
+            border-radius: 8px;
+            gap: 12px;
+            transition: transform 0.2s;
+        }
+
+        .task-item:hover {
+            transform: translateX(8px);
+        }
+
+        .task-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--black);
+        }
+
+        .task-status.pending {
+            background: var(--gray-400);
+        }
+
+        .progress-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--gray-100);
+            border-radius: 4px;
+            margin: 8px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--black);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .calendar {
+            margin-top: 24px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .calendar-day.active {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--gray-50);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 8px 0;
+        }
+
+        .stat-label {
+            color: var(--gray-500);
+            font-size: 14px;
+        }
+
+        .notification-badge {
+            background: var(--black);
+            color: var(--white);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .application-progress {
+            margin-bottom: 24px;
+            padding: 16px;
+            background: var(--gray-50);
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .status-updates {
+            padding-left: 16px;
+            border-left: 2px solid var(--gray-300);
+        }
+        
+        .status-update {
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="user-profile">
+            <img src="<%= user.profilePicture %>" class="user-avatar" alt="Profile Picture">
+            <div class="user-info">
+                <div class="user-name"><%= user.name %></div>
+                <div class="user-role">Student ID: <%= user.matric %></div>
+            </div>
+        </div>
+        <nav class="nav-menu">
+            <ul>
+                <li class="nav-item">
+                    <a href="/dashboard" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/apply-aid" class="nav-link">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <span>Aid Applications</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Documents</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/disbursements" class="nav-link">
+                        <i class="fas fa-money-check-alt"></i>
+                        <span>Disbursements</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/settings" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/logout" class="nav-link">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="main-content">
+        <% if (error_msg) { %>
+            <div class="error-message" style="color: red; margin-bottom: 16px;">
+                <%= error_msg %>
+            </div>
+        <% } %>
+        <% if (message) { %>
+            <div class="success-message" style="color: green; margin-bottom: 16px;">
+                <%= message %>
+            </div>
+        <% } %>
+        <header class="header">
+            <div class="date"><%= todayDate %></div>
+            <h1 class="greeting">Hello, <%= user.name %></h1>
+            <div class="subtitle">Track your financial aid distribution and applications</div>
+            <div class="action-buttons">
+                <button class="button button-primary">Check Aid Status</button>
+                <button class="button button-secondary">Submit Documents</button>
+                <button class="button button-secondary">View Calendar</button>
+                <button class="button button-secondary">Request Consultation</button>
+            </div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Wallet Balance</div>
+                <div class="stat-value">₦ <%= user.walletBalance %></div>
+                <div style="color: var(--gray-500)">2024-2025 Academic Year</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Pending Disbursement</div>
+                <div class="stat-value">₦ <%= user.pendingDisbursement %></div>
+                <div style="color: var(--gray-500)">Spring 2025</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Documents Required</div>
+                <div class="stat-value"><%= user.documentsRequired %></div>
+                <div style="color: var(--gray-500)">Due within 14 days</div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div>
+                <div class="tasks-section">
+                    <div class="section-header">
+                        <h2>Active Applications</h2>
+                        <span class="notification-badge"><%= user.applications.filter(app => app.status === 'Pending').length %> Pending</span>
+                    </div>
+                    <div class="task-list">
+                        <% user.applications.forEach(application => { %>
+                            <% if (application.status === 'Pending') { %>
+                                <div class="task-item">
+                                    <div class="task-status <%= application.status === 'Pending' ? 'pending' : '' %>"></div>
+                                    <div>
+                                        <div><%= application.aidType %> - ₦ <%= application.amount %></div>
+                                        <div style="color: var(--gray-500); font-size: 14px;">
+                                            Status: <%= application.status %> - Applied on <%= application.dateApplied.toLocaleDateString() %>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% }) %>
+                    </div>
+                </div>
+
+                <div class="additional-section">
+                    <div class="section-header">
+                        <h2>Recent Disbursements</h2>
+                    </div>
+                    <div class="task-list">
+                        <% user.recentDisbursements.forEach(disbursement => { %>
+                            <div class="task-item">
+                                <div class="task-status"></div>
+                                <div>
+                                    <div><%= disbursement.name %></div>
+                                    <div style="color: var(--gray-500); font-size: 14px;">₦ <%= disbursement.amount %> - Processed on <%= disbursement.date.toLocaleDateString() %></div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="progress-section">
+                    <h2>Aid Progress</h2>
+                    <% user.applications.forEach(application => { %>
+                        <% if (!application.removedAt || application.removedAt > new Date()) { %>
+                            <div class="application-progress">
+                                <div style="margin-top: 16px;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                        <span><strong><%= application.aidType %></strong> - ₦ <%= application.amount %></span>
+                                        <span style="color: var(--gray-500); font-size: 14px;">
+                                            Status: <%= application.status %>
+                                        </span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: <%= application.progress %>%;"></div>
+                                    </div>
+                                    <% if (application.statusUpdates && application.statusUpdates.length > 0) { %>
+                                        <div class="status-updates" style="margin-top: 12px;">
+                                            <% application.statusUpdates.forEach(update => { %>
+                                                <div class="status-update" style="margin-bottom: 8px;">
+                                                    <div style="color: var(--gray-700); font-size: 14px;">
+                                                        <%= update.message %>
+                                                    </div>
+                                                    <div style="color: var(--gray-500); font-size: 12px;">
+                                                        <%= update.date.toLocaleDateString() %>
+                                                    </div>
+                                                </div>
+                                            <% }) %>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% }) %>
+                </div>
+                <div class="calendar">
+                    <h3 style="margin-bottom: 16px;">Important Dates</h3>
+                    <div class="calendar-grid">
+                        <% user.importantDates.forEach(importantDate => { %>
+                            <div class="calendar-day <%= importantDate.date.toDateString() === new Date().toDateString() ? 'active' : '' %>">
+                                <%= importantDate.date.getDate() %>
+                            </div>
+                        <% }) %>
+                    </div>
+                    <div style="margin-top: 16px; font-size: 14px; color: var(--gray-500);">
+                        <% user.importantDates.forEach(importantDate => { %>
+                            <div><%= importantDate.date.toLocaleDateString() %> - <%= importantDate.description %></div>
+                        <% }) %>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        async function updateWalletBalance(amount) {
+            const userId = '<%= user.id %>'; // Ensure you pass the user ID to the frontend
+            const response = await fetch('/update-wallet', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId, amount }),
+            });
+    
+            const data = await response.json();
+            if (data.success) {
+                document.querySelector('.stat-value').textContent = `$${data.walletBalance}`;
+            } else {
+                alert('Failed to update wallet balance');
+            }
+        }
+    
+        // Example usage
+        document.querySelector('.button-primary').addEventListener('click', () => {
+            updateWalletBalance(100); // Example: Add $100 to the wallet
+        });
+    </script>
+</body>
+</html>
